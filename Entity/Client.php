@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass=ClientRepository::class)
  */
-class Client
+class Person
 {
     /**
      * @ORM\Id
