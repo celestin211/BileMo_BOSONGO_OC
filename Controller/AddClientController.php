@@ -33,7 +33,7 @@ class AddPersonController
         ValidatorInterface $validator,
         ErrorsValidator $errorsValidator,
         JsonResponder $responder,
-        LinksClientDTOGenerator $links
+        LinksPersonDTOGenerator $links
     ) {
         $this->serializer = $serializer;
         $this->manager = $manager;
@@ -67,22 +67,25 @@ class AddPersonController
      * @SWG\Tag(name="People")
      * @SecurityDoc(name="Bearer")
      */
-    public function addPerson(Request $request)
-    {
-        $client = $this->serializer->deserialize($request->getContent(), Client::class, 'json');
-        $client->setUserClient($this->security->getUser());
+     public function addPerson(Request $request)
+     {
+         $person = $this->serializer->deserialize($request->getContent(), Person::class, 'json');
+         $person->setUserClient($this->security->getUser());
 
-        $errors = $this->validator->validate($client);
-        if (count($errors) > 0) {
-            return $this->responder->send($request, $this->errorsValidator->arrayFormatted($errors), 409);
-        }
-
-        $this->manager->persist($person);
-        $this->manager->flush();
-
-        $personDTO = new PersonDTO($person);
-        $this->links->addLinks($clientDTO);
-
-        return $this->responder->send($request, $personDTO, 201);
-    }
+         /*this person is already on value once done check if the person is already in db */
+         $errors = $this->validator->validate($person);
+         if (count($errors) > 0) {
+             return $this->responder->send($request, $this->errorsValidator->arrayFormatted($errors), 409);
+         }
+         /*Add person in db */
+         $this->manager->persist($person);
+         $this->manager->flush();
+         
+           /*Add a link  for a relation between user and person */
+         $personDTO = new PersonDTO($person);
+         $this->links->addLinks($personDTO);
+         
+         /*Retun ok if is done 201 richardson level */
+         return $this->responder->send($request, $personDTO, 201);
+     }
 }
