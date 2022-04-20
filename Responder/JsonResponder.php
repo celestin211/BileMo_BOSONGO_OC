@@ -15,9 +15,13 @@ class JsonResponder
     ) {
         $this->serializer = $serializer;
     }
+    
+    /* Once get the request and data transformed to format json as array* /  
 
     public function send(Request $request, $datas, int $status = 200, array $headers = [])
     {
+     /* Please serialized the data array in format json * / 
+     
         $datasJson = $this->serializer->serialize($datas, 'json');
 
         $response = new JsonResponse($datasJson, $status, $headers, true);
