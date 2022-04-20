@@ -2,9 +2,9 @@
 
 namespace App\Controller;
 
-use App\DTO\ClientDTO;
-use App\Entity\Client;
-use App\Links\LinksClientDTOGenerator;
+use App\DTO\PersonDTO;
+use App\Entity\Person;
+use App\Links\LinksPersonDTOGenerator;
 use App\Responder\JsonResponder;
 use App\Security\ErrorsValidator;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
-class AddClientController
+class AddPersonController
 {
     private $serializer;
     private $manager;
@@ -45,7 +45,7 @@ class AddClientController
     }
 
     /**
-     * @Route("/client", methods={"POST"}, name="addClient")
+     * @Route("/person", methods={"POST"}, name="addPerson")
      * * @SWG\Response(
      *     response=201,
      *     description="Returns the created person",
@@ -55,7 +55,7 @@ class AddClientController
      *     description="Invalid : Return all fields with an error",
      * )
      * @SWG\Parameter(
-     *     name="Client",
+     *     name="Person",
      *     in="body",
      *     description="The person you want add",
      *     @SWG\Schema(
@@ -64,10 +64,10 @@ class AddClientController
      *         @SWG\Property(property="lastname", type="string", example="Celestin")
      *     )
      * )
-     * @SWG\Tag(name="Client")
+     * @SWG\Tag(name="People")
      * @SecurityDoc(name="Bearer")
      */
-    public function addClient(Request $request)
+    public function addPerson(Request $request)
     {
         $client = $this->serializer->deserialize($request->getContent(), Client::class, 'json');
         $client->setUserClient($this->security->getUser());
@@ -77,12 +77,12 @@ class AddClientController
             return $this->responder->send($request, $this->errorsValidator->arrayFormatted($errors), 409);
         }
 
-        $this->manager->persist($client);
+        $this->manager->persist($person);
         $this->manager->flush();
 
-        $clientDTO = new ClientDTO($client);
+        $personDTO = new PersonDTO($person);
         $this->links->addLinks($clientDTO);
 
-        return $this->responder->send($request, $clientDTO, 201);
+        return $this->responder->send($request, $personDTO, 201);
     }
 }
