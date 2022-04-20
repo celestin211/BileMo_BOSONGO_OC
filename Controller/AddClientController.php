@@ -85,7 +85,7 @@ class AddPersonController
          $personDTO = new PersonDTO($person);
          $this->links->addLinks($personDTO);
          
-         /*Retun ok if is done 201 richardson level */
+         /*Return ok if once is done 201 richardson level */
          return $this->responder->send($request, $personDTO, 201);
      }
 }
