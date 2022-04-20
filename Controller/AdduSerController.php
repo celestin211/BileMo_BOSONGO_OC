@@ -71,16 +71,22 @@ class AdduSerController
      */
     public function addUser(Request $request, UserPasswordEncoderInterface $encoder)
     {
+        /*Easy way to deserialize the data directly into an existing object name user */
         $user = $this->serializer->deserialize($request->getContent(), User::class, 'json');
-        $user->getEmail($this->security->getUser());
+        
+      
+        $user->getUserClient($this->security->getUser());
         $errors = $this->validator->validate($user);
+        /*check all information of users, if is already in db or exist * /
         if (count($errors) > 0) {
             return $this->responder->send($request, $this->errorsValidator->arrayFormatted($errors), 409);
         }
+        /* if we have a user please hashing his password on db for more security */
         $plainPassword = $user->getPassword();
         $encoded = $encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
-
+        
+      /* Once is done go adding to db the user and link  */
         $this->manager->persist($user);
         $this->manager->flush();
 
