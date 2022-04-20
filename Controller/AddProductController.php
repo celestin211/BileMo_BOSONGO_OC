@@ -17,6 +17,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
+
 class AddProductController
 {
     private $serializer;
@@ -49,7 +50,7 @@ class AddProductController
      * @Route("/product", methods={"POST"}, name="addProduct")
      * * @SWG\Response(
      *     response=201,
-     *     description="Returns the created person",
+     *     description="Returns the created product",
      * )
      * @SWG\Response(
      *     response=409,
@@ -58,7 +59,7 @@ class AddProductController
      * @SWG\Parameter(
      *     name="Product",
      *     in="body",
-     *     description="The person you want add",
+     *     description="The product you want add",
      *     @SWG\Schema(
      *         @SWG\Property(property="model", type="string", example="Apple"),
      *         @SWG\Property(property="brand", type="string", example="iPhone 6S"),
@@ -71,20 +72,24 @@ class AddProductController
      *         @SWG\Property(property="megapixels", type="integer", example="15")
      *     )
      * )
-     * @SWG\Tag(name="Products")
+     * @SWG\Tag(name="Product")
      * @SecurityDoc(name="Bearer")
      */
     public function addProduct(Request $request)
     {
+      /*** process of changing the format of object to json format ***/
       $product = $this->serializer->deserialize($request->getContent(), Product::class, 'json');
+        
       $product->setUserClient($this->security->getUser());
       $errors = $this->validator->validate($product);
       if (count($errors) > 0) {
           return $this->responder->send($request, $this->errorsValidator->arrayFormatted($errors), 409);
       }
+        /* send all information in db * /
         $this->manager->persist($product);
         $this->manager->flush();
-
+        
+        /* check if all information is correct for data transfomer object and add link between user and product   */
         $productDTO = new ProductDTO($product);
         $this->links->addLinks($productDTO);
 
