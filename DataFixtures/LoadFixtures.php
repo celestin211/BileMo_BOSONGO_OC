@@ -2,7 +2,7 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Client;
+use App\Entity\Person;
 use App\Entity\Product;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
@@ -43,7 +43,7 @@ class LoadFixtures extends Fixture implements FixtureGroupInterface
 
         //create People
         for ($i = 1; $i <= 10; ++$i) {
-            $person = new Client();
+            $person = new Person();
             $person->setEmail($faker->email())
                 ->setFirstname($faker->firstName())
                 ->setLastname($faker->lastName())
