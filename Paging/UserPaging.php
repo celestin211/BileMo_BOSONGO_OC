@@ -8,7 +8,7 @@ use App\Exceptions\ApiException;
 class UserPaging
 {
     
-    /*limited of 5 pages * /
+    /** limited of 5 pages **/
     private const NB_PRODUCTS_PAGED = 5;
 
     private $userRepository;
