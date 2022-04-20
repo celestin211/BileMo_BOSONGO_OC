@@ -3,9 +3,9 @@
 namespace App\Controller;
 
 use App\Exceptions\ApiException;
-use App\Repository\ClientRepository;
+use App\Repository\PersonRepository;
 use App\Responder\JsonResponder;
-use App\Security\Voter\ClientVoter;
+use App\Security\Voter\PersonVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Nelmio\ApiDocBundle\Annotation\Security as SecurityDoc;
 use Swagger\Annotations as SWG;
@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
 
-class DeleteClientController
+class DeletePersonController
 {
     private $manager;
     private $security;
@@ -24,19 +24,19 @@ class DeleteClientController
     public function __construct(
         EntityManagerInterface $manager,
         Security $security,
-        ClientRepository $clientRepository,
-        ClientVoter $clientVoter,
+        PersonRepository $personRepository,
+        PersonVoter $personVoter,
         JsonResponder $responder
     ) {
         $this->manager = $manager;
         $this->security = $security;
-        $this-> clientRepository = $clientRepository;
+        $this->personRepository = $personRepository;
         $this->personVoter = $personVoter;
         $this->responder = $responder;
     }
 
     /**
-     * @Route("/client/{id}", methods={"DELETE"}, name="deleteClient")
+     * @Route("/person/{id}", methods={"DELETE"}, name="deletePerson")
      * @SWG\Response(
      *     response=204,
      *     description="Return empty body",
@@ -44,7 +44,7 @@ class DeleteClientController
      * )
      * @SWG\Response(
      *     response=404,
-     *     description="Error : This client not exist.",
+     *     description="Error : This person not exist.",
      * )
      * @SWG\Response(
      *     response=403,
@@ -56,23 +56,24 @@ class DeleteClientController
      *     type="integer",
      *     description="The id of the person"
      * )
-     * @SWG\Tag(name="Client")
+     * @SWG\Tag(name="People")
      * @SecurityDoc(name="Bearer")
      */
     public function deletePerson($id, Request $request)
     {
+        /* found person by his id before starting everything */
         $person = $this->personRepository->findOneById($id);
 
         if (null == $person) {
             throw new ApiException('This person not exist.', 404);
         }
-
-        $vote = $this->clientVoter->vote($this->security->getToken(), $person, ['delete']);
+         /* Absoluty have a token to delete a person on fields  */
+        $vote = $this->personVoter->vote($this->security->getToken(), $person, ['delete']);
         if ($vote < 1) {
             throw new ApiException('You are not authorized to access this resource.', 403);
         }
-
-        $this->manager->remove($client);
+        /* move a person on fields */
+        $this->manager->remove($person);
         $this->manager->flush();
 
         return $this->responder->send($request, [], 204);
