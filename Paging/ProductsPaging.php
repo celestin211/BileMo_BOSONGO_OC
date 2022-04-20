@@ -7,6 +7,7 @@ use App\Exceptions\ApiException;
 
 class ProductsPaging
 {
+    /*limited of 5 pages */
     private const NB_PRODUCTS_PAGED = 5;
 
     private $productRepository;
