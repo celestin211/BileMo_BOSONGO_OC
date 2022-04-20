@@ -9,7 +9,7 @@ class UserPaging
 {
     
     /** limited of 5 pages **/
-    private const NB_PRODUCTS_PAGED = 5;
+    private const NB_USERS_PAGED = 5;
 
     private $userRepository;
     private $nbUsers;
@@ -20,7 +20,7 @@ class UserPaging
     ) {
         $this->userRepository = $userRepository;
         $this->nbUsers = $this->userRepository->count([]);
-        $this->maxPages = intval(ceil($this->nbUsers / self::NB_PRODUCTS_PAGED));
+        $this->maxPages = intval(ceil($this->nbUsers / self::NB_USERS_PAGED));
     }
 
     public function getDatas($page)
@@ -33,8 +33,8 @@ class UserPaging
             throw new ApiException('The page must be between 1 and '.$this->maxPages.'.', 404);
         }
 
-        $offset = self::NB_PRODUCTS_PAGED * ($page - 1);
+        $offset = self::NB_USERS_PAGED * ($page - 1);
 
-        return $users = $this->userRepository->findBy([], [], self::NB_PRODUCTS_PAGED, $offset);
+        return $users = $this->userRepository->findBy([], [], self::NB_USERS_PAGED, $offset);
     }
 }
