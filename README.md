@@ -2,7 +2,11 @@
 
 
 # BOSONGO PROJET 7 OPENCLASSROOMS
-[code adecy]
+[code adecy]   
+
+# Source d'information 
+[https://zestedesavoir.com/tutoriels/pdf/1280/creez-une-api-rest-avec-symfony-3.pdf]
+Création de classes DTO ont été inspirées par ce cours: [https://skalp.developpez.com/traductions/quelle-est-difference-entre-dto-et-poco]
 
 Besoin client
 Le premier client a enfin signé un contrat de partenariat avec BileMo ! C’est le branle-bas de combat pour répondre aux besoins de ce premier client qui va permettre de mettre en place l’ensemble des API et de les éprouver tout de suite.
