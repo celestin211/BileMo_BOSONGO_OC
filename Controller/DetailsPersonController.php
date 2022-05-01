@@ -39,7 +39,7 @@ class DetailsPersonController
      * @Route("/person/{id}", methods={"GET"}, name="detailsPerson")
      * @SWG\Response(
      *     response=200,
-     *     description="Returns one product",
+     *     description="Returns one person",
      *
      * )
      * @SWG\Response(
@@ -59,27 +59,17 @@ class DetailsPersonController
      * @SWG\Tag(name="People")
      * @SecurityDoc(name="Bearer")
      */
-     public function detailsPerson($id, Request $request)
-     {
-         /*Check person by his id on the field */
-         
-       $person = $this->personRepository->findOneById($id);
-   
-       if (null == $person) {
-           throw new ApiException('This person not exist.', 404);
-       }
-         
-        /** Absoluty have a token to delete a person on fields  **/
-       $vote = $this->personVoter->vote($this->security->getToken(), $person, ['view']);
-         
-        /* Make sure the token cant be empty on fields else throw exception error 403 RichardSon level */
-       if ($vote < 1) {
-           throw new ApiException('You are not authorized to access this resource.', 403);
-       }
-       
-       $personDTO = new PersonDTO($person);
-       $this->links->addLinks($personDTO);
+    public function detailsPerson($id, Request $request)
+    {
+        $person = $this->personRepository->findOneById($id);
+        if (null == $person) {
+            throw new ApiException('This person not exist.', 404);
+        }
 
-       return $this->responder->send($request, $personDTO);
-   }
+
+        $personDTO = new PersonDTO($person);
+        $this->links->addLinks($personDTO);
+
+        return $this->responder->send($request, $personDTO, 201);
+    }
 }
