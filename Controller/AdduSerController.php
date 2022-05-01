@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\DTO\UserDTO;
 use App\Entity\User;
+use App\Entity\Product;
 use App\Links\LinksUserDTOGenerator;
 use App\Responder\JsonResponder;
 use App\Security\ErrorsValidator;
@@ -16,6 +17,7 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 
 class AdduSerController
 {
@@ -50,7 +52,7 @@ class AdduSerController
      * @Route("/user", methods={"POST"}, name="addUser")
      * * @SWG\Response(
      *     response=201,
-     *     description="Returns the created person",
+     *     description="Returns the created user",
      * )
      * @SWG\Response(
      *     response=409,
@@ -59,34 +61,30 @@ class AdduSerController
      * @SWG\Parameter(
      *     name="User",
      *     in="body",
-     *     description="The person you want add",
+     *     description="The user you want add",
      *     @SWG\Schema(
-     *         @SWG\Property(property="email", type="string", example="celestin.mombela@yahoo.fr"),
-     *         @SWG\Property(property="password", type="string", example="nbClient"),
-     *         @SWG\Property(property="roles", type="json", example= "ROLE_ADMIN")
+     *         @SWG\Property(property="email", type="string", example="celestin.bosongo@yahoo.fr"),
+     *         @SWG\Property(property="password", type="string", example="bosongo211"),
+     *         @SWG\Property(property="username", type="string", example="username"),
+     *         @SWG\Property(property="roles", type="json", example="ROLE_USER")
      *     )
      * )
      * @SWG\Tag(name="User")
      * @SecurityDoc(name="Bearer")
      */
+
     public function addUser(Request $request, UserPasswordEncoderInterface $encoder)
     {
-        /*Easy way to deserialize the data directly into an existing object name user */
         $user = $this->serializer->deserialize($request->getContent(), User::class, 'json');
-        
-      
         $user->getUserClient($this->security->getUser());
         $errors = $this->validator->validate($user);
-        /*check all information of users, if is already in db or exist * /
         if (count($errors) > 0) {
             return $this->responder->send($request, $this->errorsValidator->arrayFormatted($errors), 409);
         }
-        /* if we have a user please hashing his password on db for more security */
         $plainPassword = $user->getPassword();
         $encoded = $encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
-        
-      /* Once is done go adding to db the user and link  */
+
         $this->manager->persist($user);
         $this->manager->flush();
 
@@ -98,3 +96,4 @@ class AdduSerController
     }
 
   }
+
