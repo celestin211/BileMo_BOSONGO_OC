@@ -4,6 +4,7 @@
 # BOSONGO PROJET 7 OPENCLASSROOMS
 [code adecy]   
 https://app.codacy.com/gh/celestin211/BileMo_BOSONGO_OC/dashboard
+https://celestinbosongo.com/doc
 
 # Source d'information 
 [https://zestedesavoir.com/tutoriels/pdf/1280/creez-une-api-rest-avec-symfony-3.pdf]
