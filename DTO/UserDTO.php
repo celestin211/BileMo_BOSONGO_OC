@@ -3,6 +3,7 @@
 namespace App\DTO;
 
 use App\Entity\User;
+use App\Entity\Person;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -17,6 +18,7 @@ class UserDTO
   private $password;
   private $email;
   private $_links;
+  private $userClient;
 
     public function __construct(
         User $user
@@ -26,16 +28,17 @@ class UserDTO
         $this->password = $user->getPassword();
         $this->email = $user->getEmail();
         $this->roles = $user->getRoles();
+        $this->userClient = $user->getUserClient();
     }
 
     public function getUserDTO(array $users)
     {
         foreach ($users as $user) {
             $userDTO = new self($user);
-            $userDTO[] = $userDTO;
+            $usersDTO[] = $userDTO;
         }
 
-        return $userDTO;
+        return $usersDTO;
     }
 
     public function getId(): ?int
@@ -102,4 +105,18 @@ class UserDTO
 
         return $this;
     }
+
+    public function getUserClient(): ?Person
+    {
+        return $this->userClient;
+    }
+
+    public function setUserClient(?Person $userClient): self
+    {
+        $this->userClient = $userClient;
+
+        return $this;
+    }
+
 }
+
