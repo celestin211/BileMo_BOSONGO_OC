@@ -2,17 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\ProductRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ProductRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
  */
 class Product
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -25,11 +24,6 @@ class Product
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $color;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
     private $model;
 
     /**
@@ -38,9 +32,19 @@ class Product
     private $releaseYear;
 
     /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $color;
+
+    /**
      * @ORM\Column(type="float")
      */
     private $screenSize;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $storageGB;
 
     /**
      * @ORM\Column(type="integer")
@@ -57,15 +61,12 @@ class Product
      */
     private $price;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=Client::class, inversedBy="products")
-     */
-    private $userClient;
+    private $_links;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="products")
      */
-    private $user;
+    private $userClient;
 
     public function getId(): ?int
     {
@@ -80,18 +81,6 @@ class Product
     public function setBrand(string $brand): self
     {
         $this->brand = $brand;
-
-        return $this;
-    }
-
-    public function getColor(): ?string
-    {
-        return $this->color;
-    }
-
-    public function setColor(string $color): self
-    {
-        $this->color = $color;
 
         return $this;
     }
@@ -120,6 +109,18 @@ class Product
         return $this;
     }
 
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
     public function getScreenSize(): ?float
     {
         return $this->screenSize;
@@ -128,6 +129,18 @@ class Product
     public function setScreenSize(float $screenSize): self
     {
         $this->screenSize = $screenSize;
+
+        return $this;
+    }
+
+    public function getStorageGB(): ?int
+    {
+        return $this->storageGB;
+    }
+
+    public function setStorageGB(int $storageGB): self
+    {
+        $this->storageGB = $storageGB;
 
         return $this;
     }
@@ -168,26 +181,26 @@ class Product
         return $this;
     }
 
-    public function getUserClient(): ?Client
+    public function get_Links(): ?array
     {
-        return $this->userClient;
+        return $this->_links;
     }
 
-    public function setUserClient(?Client $userClient): self
+    public function set_Links(array $links): self
     {
-        $this->userClient = $userClient;
+        $this->_links = $links;
 
         return $this;
     }
 
-    public function getUser(): ?User
+    public function getUserClient(): ?User
     {
-        return $this->user;
+        return $this->userClient;
     }
 
-    public function setUser(?User $user): self
+    public function setUserClient(?User $userClient): self
     {
-        $this->user = $user;
+        $this->userClient = $userClient;
 
         return $this;
     }
