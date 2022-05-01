@@ -39,7 +39,7 @@ class DeleteProductController
      * @Route("/product/{id}", methods={"DELETE"}, name="deleteProduct")
      * @SWG\Response(
      *     response=204,
-     *     description="Return empty body",
+     *     description="product was deleted ",
      *
      * )
      * @SWG\Response(
@@ -59,18 +59,15 @@ class DeleteProductController
      * @SWG\Tag(name="Product")
      * @SecurityDoc(name="Bearer")
      */
+
     public function deleteProduct($id, Request $request)
     {
         $product = $this->productRepository->findOneById($id);
 
         if (null == $product) {
-            throw new ApiException('This person not exist.', 404);
+            throw new ApiException('This product not exist.', 404);
         }
 
-        $vote = $this->productVoter->vote($this->security->getToken(), $product, ['delete']);
-        if ($vote < 1) {
-            throw new ApiException('You are not authorized to access this resource.', 403);
-        }
 
         $this->manager->remove($product);
         $this->manager->flush();
