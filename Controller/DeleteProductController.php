@@ -44,7 +44,7 @@ class DeleteProductController
      * )
      * @SWG\Response(
      *     response=404,
-     *     description="Error : This person not exist.",
+     *     description="Error : This product not exist.",
      * )
      * @SWG\Response(
      *     response=403,
@@ -54,7 +54,7 @@ class DeleteProductController
      *     name="id",
      *     in="path",
      *     type="integer",
-     *     description="The id of the person"
+     *     description="The id of the product"
      * )
      * @SWG\Tag(name="Product")
      * @SecurityDoc(name="Bearer")
