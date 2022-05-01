@@ -35,7 +35,7 @@ class ListOfUserController
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return list of people",
+     *     description="Return list of user",
      *
      * )
      * @SWG\Response(
