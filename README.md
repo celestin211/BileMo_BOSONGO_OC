@@ -4,6 +4,7 @@
 # BOSONGO PROJET 7 OPENCLASSROOMS
 [code adecy]   
 https://app.codacy.com/gh/celestin211/BileMo_BOSONGO_OC/dashboard
+[BileMo Doc]
 https://celestinbosongo.com/doc
 
 # Source d'information 
