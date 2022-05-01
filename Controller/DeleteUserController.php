@@ -36,7 +36,7 @@ class DeleteUserController
     }
 
     /**
-     * @Route("/user/{id}", methods={"DELETE"}, name="deleteUser")
+     * @Route("/user/{id}", methods={"DELETE"}, name="deletelUser")
      * @SWG\Response(
      *     response=204,
      *     description="Return empty body",
@@ -44,7 +44,7 @@ class DeleteUserController
      * )
      * @SWG\Response(
      *     response=404,
-     *     description="Error : This person not exist.",
+     *     description="Error : This user not exist.",
      * )
      * @SWG\Response(
      *     response=403,
@@ -64,13 +64,9 @@ class DeleteUserController
         $user = $this->userRepository->findOneById($id);
 
         if (null == $user) {
-            throw new ApiException('This person not exist.', 404);
+            throw new ApiException('This user not exist.', 404);
         }
 
-        $vote = $this->userVoter->vote($this->security->getToken(), $user, ['delete'], ['update']);
-        if ($vote < 1) {
-            throw new ApiException('You are not authorized to access this resource.', 403);
-        }
 
         $this->manager->remove($user);
         $this->manager->flush();
