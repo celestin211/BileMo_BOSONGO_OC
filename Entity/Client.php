@@ -2,19 +2,16 @@
 
 namespace App\Entity;
 
-use App\Repository\ClientRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=ClientRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
  */
 class Person
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
+     * @ORM\Id()
+     * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
@@ -35,19 +32,11 @@ class Person
     private $lastname;
 
     /**
-     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="userClient")
-     */
-    private $products;
-
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="people")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="people")
      */
     private $userClient;
 
-    public function __construct()
-    {
-        $this->products = new ArrayCollection();
-    }
+    private $_links;
 
     public function getId(): ?int
     {
@@ -90,36 +79,6 @@ class Person
         return $this;
     }
 
-    /**
-     * @return Collection|Product[]
-     */
-    public function getProducts(): Collection
-    {
-        return $this->products;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->setUserClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getUserClient() === $this) {
-                $product->setUserClient(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getUserClient(): ?User
     {
         return $this->userClient;
@@ -128,6 +87,18 @@ class Person
     public function setUserClient(?User $userClient): self
     {
         $this->userClient = $userClient;
+
+        return $this;
+    }
+
+    public function get_Links(): ?array
+    {
+        return $this->_links;
+    }
+
+    public function set_Links(array $links): self
+    {
+        $this->_links = $links;
 
         return $this;
     }
