@@ -48,7 +48,7 @@ class ListOfPeopleController
      *     type="integer",
      *     description="People pagination"
      * )
-     * @SWG\Tag(name="Person")
+     * @SWG\Tag(name="People")
      * @SecurityDoc(name="Bearer")
      */
     public function listOfpeople(Request $request)
