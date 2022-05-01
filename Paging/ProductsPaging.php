@@ -3,11 +3,10 @@
 namespace App\Paging;
 
 use App\Exceptions\ApiException;
-//use App\Repository\ProductRepository;
+use App\Repository\ProductRepository;
 
 class ProductsPaging
 {
-    /*limited of 5 pages */
     private const NB_PRODUCTS_PAGED = 5;
 
     private $productRepository;
@@ -15,7 +14,7 @@ class ProductsPaging
     private $maxPages;
 
     public function __construct(
-  //      ProductRepository $productRepository
+        ProductRepository $productRepository
     ) {
         $this->productRepository = $productRepository;
         $this->nbProducts = $this->productRepository->count([]);
