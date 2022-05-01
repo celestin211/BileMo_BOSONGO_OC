@@ -13,12 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DetailsProductController
 {
-  private $productVoter;
-  private $security;
-  private $responder;
+    private $productRepository;
+    private $responder;
 
     public function __construct(
-      ProductRepository $productRepository,
+        ProductRepository $productRepository,
         JsonResponder $responder,
         LinksProductDTOGenerator $links
     ) {
@@ -45,24 +44,18 @@ class DetailsProductController
      *     type="integer",
      *     description="The id of the product"
      * )
-     * @SWG\Tag(name="Products")
+     * @SWG\Tag(name="Product")
      * @SecurityDoc(name="Bearer")
      */
-     public function detailsProduct($id, Request $request)
-     {
-         $product = $this->productRepository->findOneById($id);
-         if (null == $product) {
-             throw new ApiException('This person not exist.', 404);
-         }
+    public function detailsProduct($id, Request $request)
+    {
+        $product = $this->productRepository->findOneById($id);
+        if (null == $product) {
+            throw new ApiException('This product not exist.', 404);
+        }
 
-         $vote = $this->productVoter->vote($this->security->getToken(), $product, ['view']);
-         if ($vote < 1) {
-             throw new ApiException('You are not authorized to access this resource.', 403);
-         }
+        $this->links->addLinks($product);
 
-         $productDTO = new ProductDTO($product);
-         $this->links->addLinks($productDTO);
-
-         return $this->responder->send($request, $productDTO);
-     }
+        return $this->responder->send($request, $product);
+    }
 }
