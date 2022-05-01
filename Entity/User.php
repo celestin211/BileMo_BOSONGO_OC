@@ -5,6 +5,7 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\Person;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -48,7 +49,8 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Product::class, mappedBy="userClient")
      */
     private $products;
-
+    private $_links;
+    private $userClient;
     public function __construct()
     {
         $this->people = new ArrayCollection();
@@ -73,6 +75,19 @@ class User implements UserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+
+     public function getUserClient(): ?Person
+    {
+        return $this->userClient;
+    }
+
+    public function setUserClient(?Person $userClient): self
+    {
+        $this->userClient = $userClient;
 
         return $this;
     }
@@ -125,6 +140,20 @@ class User implements UserInterface
 
         return $this;
     }
+    public function get_Links(): ?array
+    {
+        return $this->_links;
+    }
+
+    public function set_Links(array $links): self
+    {
+        $this->_links = $links;
+
+        return $this;
+    }
+
+
+
 
     /**
      * @see UserInterface
