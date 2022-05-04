@@ -28,7 +28,8 @@ class LoadProducts extends Fixture implements FixtureGroupInterface
         //create Users
         $user = new User();
         $user->setUsername('admin')
-             ->setPassword($this->passwordEncoder->encodePassword($user, 'password'))
+             ->setPassword($this->passwordEncoder->encodePassword($user, 'password')
+             ->setEmail('bosongo@yahoo.fr'))
         ;
         $manager->persist($user);
 
