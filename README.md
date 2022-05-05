@@ -68,6 +68,26 @@ $ mkdir config/jwt
 $ openssl genrsa -out config/jwt/private.pem -aes256 4096
 $ openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
 ```
-Il est conseillé de travailler avec postMan 
 
-7. Félicitations le projet est installé correctement, vous pouvez désormais commencer à l'utiliser à votre guise !
+
+## Utilisation 
+```
+Je vous conseille d'utiliser Postaman  :
+téléchargement https://www.postman.com/downloads
+```
+## Connecter 
+```
+ROLE_ADMIN login : 
+{
+    "username":"admin", 
+    "password":"admin",
+    "email": "admin@yahoo.fr"
+}
+ROLE_USER login : 
+{
+    "username":"toto", 
+    "password":"toto",
+    "email": "toto@yahoo.fr"
+}
+
+7. Félicitations vous pouvez utiliser l'application BileMo https://celestinbosongo.com/doc
