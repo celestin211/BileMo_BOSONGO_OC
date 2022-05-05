@@ -55,7 +55,7 @@ class DetailsPersonController
      *     type="integer",
      *     description="The id of the person"
      * )
-     * @SWG\Tag(name="People")
+     * @SWG\Tag(name="Person")
      * @SecurityDoc(name="Bearer")
      */
       public function detailsPerson($id, Request $request)
