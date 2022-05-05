@@ -56,7 +56,7 @@ class DeletePersonController
      *     type="integer",
      *     description="The id of the person"
      * )
-     * @SWG\Tag(name="People")
+     * @SWG\Tag(name="Person")
      * @SecurityDoc(name="Bearer")
      */
     public function deletePerson($id, Request $request)
