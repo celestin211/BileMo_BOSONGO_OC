@@ -61,15 +61,20 @@ class DeletePersonController
      */
     public function deletePerson($id, Request $request)
     {
-        $person = $this->personRepository->findOneById($id);
+      $person = $this->personRepository->findOneById($id);
 
-        if (null == $person) {
-            throw new ApiException('This person not exist.', 404);
-        }
+      if (null == $person) {
+          throw new ApiException('This person not exist.', 404);
+      }
 
-        $this->manager->remove($person);
-        $this->manager->flush();
+      $vote = $this->personVoter->vote($this->security->getToken(), $person, ['delete']);
+      if ($vote < 1) {
+          throw new ApiException('You are not authorized to access this resource.', 403);
+      }
 
-        return $this->responder->send($request, [], 204);
-    }
+      $this->manager->remove($person);
+      $this->manager->flush();
+
+      return $this->responder->send($request, [], 204);
+  }
 }
