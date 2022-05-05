@@ -75,7 +75,7 @@ $ openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
 Je vous conseille d'utiliser Postaman  :
 téléchargement https://www.postman.com/downloads
 ```
-## Connecter 
+## Connexion
 ```
 ROLE_ADMIN login : 
 {
