@@ -13,27 +13,26 @@ use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Security;
-
 class DetailsPersonController
 {
-    private $personRepository;
-    private $personVoter;
-    private $security;
-    private $responder;
+   private $personRepository;
+   private $personVoter;
+   private $security;
+   private $responder;
 
-    public function __construct(
-        PersonRepository $personRepository,
-        PersonVoter $personVoter,
-        Security $security,
-        JsonResponder $responder,
-        LinksPersonDTOGenerator $links
-    ) {
-        $this->personRepository = $personRepository;
-        $this->personVoter = $personVoter;
-        $this->security = $security;
-        $this->responder = $responder;
-        $this->links = $links;
-    }
+ public function __construct(
+     PersonRepository $personRepository,
+     PersonVoter $personVoter,
+     Security $security,
+     JsonResponder $responder,
+     LinksPersonDTOGenerator $links
+ ) {
+     $this->personRepository = $personRepository;
+     $this->personVoter = $personVoter;
+     $this->security = $security;
+     $this->responder = $responder;
+     $this->links = $links;
+ }
 
     /**
      * @Route("/person/{id}", methods={"GET"}, name="detailsPerson")
@@ -59,17 +58,21 @@ class DetailsPersonController
      * @SWG\Tag(name="People")
      * @SecurityDoc(name="Bearer")
      */
-    public function detailsPerson($id, Request $request)
+      public function detailsPerson($id, Request $request)
     {
-        $person = $this->personRepository->findOneById($id);
-        if (null == $person) {
-            throw new ApiException('This person not exist.', 404);
-        }
+      $person = $this->personRepository->findOneById($id);
+      if (null == $person) {
+          throw new ApiException('This person not exist.', 404);
+      }
 
+      $vote = $this->personVoter->vote($this->security->getToken(), $person, ['view']);
+      if ($vote < 1) {
+          throw new ApiException('You are not authorized to access this resource.', 403);
+      }
 
-        $personDTO = new PersonDTO($person);
-        $this->links->addLinks($personDTO);
+      $personDTO = new PersonDTO($person);
+      $this->links->addLinks($personDTO);
 
-        return $this->responder->send($request, $personDTO, 201);
-    }
+      return $this->responder->send($request, $personDTO);
+  }
 }
