@@ -59,3 +59,4 @@ class DetailsUserController
         return $this->responder->send($request, $user);
     }
 }
+
