@@ -12,7 +12,7 @@ class  UserVoter extends Voter
     protected function supports($attribute, $subject)
     {
 
-        return in_array($attribute, ['view', 'delete'])
+        return in_array($attribute, ['view', 'delete', 'add'])
             && $subject instanceof User;
     }
 
