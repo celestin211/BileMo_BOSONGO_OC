@@ -56,10 +56,10 @@ class DeletePersonController
      *     type="integer",
      *     description="The id of the person"
      * )
-     * @SWG\Tag(name="Person")
+     * @SWG\Tag(name="People")
      * @SecurityDoc(name="Bearer")
      */
-    public function deletePerson($id, Request $request)
+     public function deletePerson($id, Request $request)
     {
       $person = $this->personRepository->findOneById($id);
 
