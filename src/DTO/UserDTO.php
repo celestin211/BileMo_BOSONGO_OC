@@ -106,16 +106,5 @@ class UserDTO
         return $this;
     }
 
-    public function getUserClient(): ?Person
-    {
-        return $this->userClient;
-    }
-
-    public function setUserClient(?Person $userClient): self
-    {
-        $this->userClient = $userClient;
-
-        return $this;
-    }
 
 }
