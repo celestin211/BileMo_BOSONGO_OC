@@ -62,3 +62,4 @@ class ListOfProductsController
         return $this->responder->send($request, $productsDTO);
     }
 }
+
