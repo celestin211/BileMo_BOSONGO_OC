@@ -5,7 +5,6 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Entity\Person;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -14,20 +13,26 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class User implements UserInterface
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
+     * @ORM\Id
+     * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=180, unique=true)
-     */
-    private $username;
-    /**
-     * @ORM\Column(type="string", length=180, unique=true)
+     * @ORM\Column(type="string", length=255)
      */
     private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $username;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $password;
 
     /**
      * @ORM\Column(type="json")
@@ -35,26 +40,13 @@ class User implements UserInterface
     private $roles = [];
 
     /**
-     * @var string The hashed password
-     * @ORM\Column(type="string")
-     */
-    private $password;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Person", mappedBy="userClient")
+     * @ORM\OneToMany(targetEntity=Person::class, mappedBy="userClient", orphanRemoval=true)
      */
     private $people;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Product::class, mappedBy="userClient")
-     */
-    private $products;
-    private $_links;
-    private $userClient;
     public function __construct()
     {
         $this->people = new ArrayCollection();
-        $this->products = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -62,14 +54,21 @@ class User implements UserInterface
         return $this->id;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getUsername(): string
+    public function getEmail(): ?string
     {
-        return (string) $this->username;
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
     }
 
     public function setUsername(string $username): self
@@ -79,59 +78,9 @@ class User implements UserInterface
         return $this;
     }
 
-
-     public function getUserClient(): ?Person
+    public function getPassword(): ?string
     {
-        return $this->userClient;
-    }
-
-    public function setUserClient(?Person $userClient): self
-    {
-        $this->userClient = $userClient;
-
-        return $this;
-    }
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
-    public function getEmail(): string
-    {
-        return (string) $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-    /**
-     * @see UserInterface
-     */
-    public function getRoles(): array
-    {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
-    }
-
-    public function setRoles(array $roles): self
-    {
-        $this->roles = $roles;
-
-        return $this;
-    }
-
-    /**
-     * @see UserInterface
-     */
-    public function getPassword(): string
-    {
-        return (string) $this->password;
+        return $this->password;
     }
 
     public function setPassword(string $password): self
@@ -140,37 +89,25 @@ class User implements UserInterface
 
         return $this;
     }
-    public function get_Links(): ?array
-    {
-        return $this->_links;
-    }
-
-    public function set_Links(array $links): self
-    {
-        $this->_links = $links;
-
-        return $this;
-    }
-
-
-
 
     /**
-     * @see UserInterface
-     */
-    public function getSalt()
-    {
-        // not needed when using the "bcrypt" algorithm in security.yaml
-    }
+      * @see UserInterface
+      */
+     public function getRoles(): array
+     {
+         $roles = $this->roles;
+         // guarantee every user at least has ROLE_USER
+         $roles[] = 'ROLE_USER';
 
-    /**
-     * @see UserInterface
-     */
-    public function eraseCredentials()
-    {
-        // If you store any temporary, sensitive data on the user, clear it here
-        // $this->plainPassword = null;
-    }
+         return array_unique($roles);
+     }
+
+     public function setRoles(array $roles): self
+     {
+         $this->roles = $roles;
+
+         return $this;
+     }
 
     /**
      * @return Collection|Person[]
@@ -192,8 +129,7 @@ class User implements UserInterface
 
     public function removePerson(Person $person): self
     {
-        if ($this->people->contains($person)) {
-            $this->people->removeElement($person);
+        if ($this->people->removeElement($person)) {
             // set the owning side to null (unless already changed)
             if ($person->getUserClient() === $this) {
                 $person->setUserClient(null);
@@ -204,32 +140,20 @@ class User implements UserInterface
     }
 
     /**
-     * @return Collection|Product[]
+     * @see UserInterface
      */
-    public function getProducts(): Collection
+    public function getSalt()
     {
-        return $this->products;
+        // not needed when using the "bcrypt" algorithm in security.yaml
     }
 
-    public function addProduct(Product $product): self
+    /**
+     * @see UserInterface
+     */
+    public function eraseCredentials()
     {
-        if (!$this->products->contains($product)) {
-            $this->products[] = $product;
-            $product->setUserClient($this);
-        }
-
-        return $this;
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
     }
 
-    public function removeProduct(Product $product): self
-    {
-        if ($this->products->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getUserClient() === $this) {
-                $product->setUserClient(null);
-            }
-        }
-
-        return $this;
-    }
 }
