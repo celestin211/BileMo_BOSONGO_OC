@@ -77,14 +77,15 @@ class AddProductController
     public function addProduct(Request $request)
     {
       $product = $this->serializer->deserialize($request->getContent(), Product::class, 'json');
-      $product->setUserClient($this->security->getUser());
+
       $errors = $this->validator->validate($product);
       if (count($errors) > 0) {
           return $this->responder->send($request, $this->errorsValidator->arrayFormatted($errors), 409);
       }
+
+
         $this->manager->persist($product);
         $this->manager->flush();
-
         $productDTO = new ProductDTO($product);
         $this->links->addLinks($productDTO);
 
