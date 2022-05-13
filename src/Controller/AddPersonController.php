@@ -44,6 +44,7 @@ class AddPersonController
         $this->links = $links;
     }
 
+
     /**
      * @Route("/person", methods={"POST"}, name="addPerson")
      * * @SWG\Response(
@@ -59,9 +60,9 @@ class AddPersonController
      *     in="body",
      *     description="The person you want add",
      *     @SWG\Schema(
-     *         @SWG\Property(property="email", type="string", example="exemple_bosongocelestin@exemple.com"),
-     *         @SWG\Property(property="firstname", type="string", example="Bososngo"),
-     *         @SWG\Property(property="lastname", type="string", example="Celestin")
+     *         @SWG\Property(property="email", type="string", example="exemple@exemple.com"),
+     *         @SWG\Property(property="firstname", type="string", example="John"),
+     *         @SWG\Property(property="lastname", type="string", example="Smith")
      *     )
      * )
      * @SWG\Tag(name="People")
