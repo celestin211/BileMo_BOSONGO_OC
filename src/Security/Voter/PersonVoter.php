@@ -53,3 +53,4 @@ class PersonVoter extends Voter
         }
     }
 }
+
