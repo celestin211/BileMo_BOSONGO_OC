@@ -19,7 +19,7 @@ use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
-class AdduSerController
+class AddUSerController
 {
     private $serializer;
     private $manager;
@@ -76,7 +76,6 @@ class AdduSerController
     public function addUser(Request $request, UserPasswordEncoderInterface $encoder)
     {
         $user = $this->serializer->deserialize($request->getContent(), User::class, 'json');
-        $user->getUserClient($this->security->getUser());
         $errors = $this->validator->validate($user);
         if (count($errors) > 0) {
             return $this->responder->send($request, $this->errorsValidator->arrayFormatted($errors), 409);
