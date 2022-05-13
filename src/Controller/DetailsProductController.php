@@ -59,3 +59,5 @@ class DetailsProductController
         return $this->responder->send($request, $product);
     }
 }
+
+
