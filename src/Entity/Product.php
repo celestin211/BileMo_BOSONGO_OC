@@ -63,11 +63,6 @@ class Product
 
     private $_links;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="products")
-     */
-    private $userClient;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -192,16 +187,5 @@ class Product
 
         return $this;
     }
-
-    public function getUserClient(): ?User
-    {
-        return $this->userClient;
-    }
-
-    public function setUserClient(?User $userClient): self
-    {
-        $this->userClient = $userClient;
-
-        return $this;
-    }
 }
+
