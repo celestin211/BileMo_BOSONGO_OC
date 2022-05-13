@@ -62,3 +62,4 @@ class ListOfPeopleController
         return $this->responder->send($request, $peopleDTO);
     }
 }
+
