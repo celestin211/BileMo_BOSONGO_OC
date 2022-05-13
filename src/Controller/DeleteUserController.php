@@ -74,3 +74,4 @@ class DeleteUserController
         return $this->responder->send($request, [], 204);
     }
 }
+
