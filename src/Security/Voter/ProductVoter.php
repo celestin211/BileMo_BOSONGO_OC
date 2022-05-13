@@ -13,7 +13,7 @@ class ProductVoter extends Voter
     protected function supports($attribute, $subject)
     {
 
-        return in_array($attribute, ['view', 'delete',  'add', 'update'])
+        return in_array($attribute, ['view', 'delete',  'add'])
             && $subject instanceof Product;
     }
 
@@ -36,10 +36,6 @@ class ProductVoter extends Voter
                 return $this->canDelete($subject, $product);
                 break;
 
-            case 'update':
-                return $this->canUpdate($subject, $product);
-                break;
-
             case 'add':
                 return $this->canAdd($subject, $product);
                 break;
@@ -59,12 +55,7 @@ class ProductVoter extends Voter
             return true;
         }
       }
-        private function canUpdate(Product $subject, User $user)
-        {
-            if ($this->canView($subject, $user)) {
-                return true;
-            }
-    }
+       
 
     private function canAdd(Product $subject, User $user)
     {
