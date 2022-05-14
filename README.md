@@ -1,16 +1,4 @@
-# BileMo_BOSONGO_OC
-
-
 # BOSONGO PROJET 7 OPENCLASSROOMS
-[code adecy]   
-https://app.codacy.com/gh/celestin211/BileMo_BOSONGO_OC/dashboard
-
-
-[BileMo Doc] https://celestinbosongo.com/doc
-
-# Source d'information 
-[https://zestedesavoir.com/tutoriels/pdf/1280/creez-une-api-rest-avec-symfony-3.pdf]
-Création de classes DTO ont été inspirées par ce cours: [https://skalp.developpez.com/traductions/quelle-est-difference-entre-dto-et-poco]
 
 Besoin client
 Le premier client a enfin signé un contrat de partenariat avec BileMo ! C’est le branle-bas de combat pour répondre aux besoins de ce premier client qui va permettre de mettre en place l’ensemble des API et de les éprouver tout de suite.
@@ -27,17 +15,17 @@ supprimer un utilisateur ajouté par un client.
 Création d'une API Rest pour BileMo, une entreprise de vente de téléphone fictive.
 
 ## Environnement utilisé durant le développement
-* Symfony https://symfony.com/doc/current/index.html
-* Composer https://getcomposer.org
-* WampServer https://www.wampserver.com/en/download-wampserver-64bits/
-* Apache 
-* PHP 7.4 ou plus https://www.php.net/downloads.php
+* Symfony 4.2
+* Composer 1.8.0
+* WampServer 3.1.7
+* Apache 2.4.37
+* PHP 8
 * MySQL 5.7.24 (5.7.8 minimum pour l'utilisation du champs JSON !)
-* OpenSSL ([Solution alternative pour OpenSSL sur Windows](https://slproweb.com/products/Win32OpenSSL.html))
-* Postman https://www.postman.com il faut créer un compte 
+* OpenSSL
+*Postman
 
 ## Informations sur l'API
-* L'obtention du token afin de s'authentifier à l'API se fait via l'envoie des identifiants sur l'URL /login POST
+* L'obtention du token afin de s'authentifier à l'API se fait via l'envoie des identifiants sur l'URI /api/login_check
 * Les opérations "GET" sont accéssibles à tout utilisateur authentifié.
 * Par sécurité, les autres opérations (POST/PUT/DELETE) ne sont accéssibles qu'aux utilisateurs qui possédent le rôle ROLE_ADMIN.
 
@@ -61,13 +49,11 @@ Création d'une API Rest pour BileMo, une entreprise de vente de téléphone fic
     php bin/console doctrine:migrations:migrate
 ```
 6. Générez les clés SSH ([Solution alternative pour OpenSSL sur Windows](https://slproweb.com/products/Win32OpenSSL.html))
-Et noter votre passphrase à la ligne "JWT_PASSPHRASE=" de votre fichier `.env ou .env.local une fois qu'on veut déploier son application en ligne `
-Avant il faut avoir ce bundels composer require lexik/jwt-authentication-bundle pour utiliser toute la partie [JWT https://jwt.io/introduction ]
-```Un peu de bash
+Et noter votre passphrase à la ligne "JWT_PASSPHRASE=" de votre fichier `.env.local`
+```bash
 $ mkdir config/jwt
 $ openssl genrsa -out config/jwt/private.pem -aes256 4096
 $ openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
 ```
-Il est conseillé de travailler avec postMan 
 
 7. Félicitations le projet est installé correctement, vous pouvez désormais commencer à l'utiliser à votre guise !
