@@ -56,10 +56,7 @@ class ListOfUserController
     {
 
         $user = $this->paging->getDatas($request->query->get('page'));
-        if ($user!= "ROLE_ADMIN") {
-            throw new ApiException('You are not admin,  access denied  🙅 ', 403);
-        }
-
+        
         $userDTO = $this->userDTO->getUserDTO($user);
 
         $this->links->addLinks($userDTO);
