@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DTO\UserDTO;
+use App\Exceptions\ApiException;
 use App\Links\LinksUserDTOGenerator;
 use App\Paging\UserPaging;
 use App\Responder\JsonResponder;
@@ -46,14 +47,18 @@ class ListOfUserController
      *     name="page",
      *     in="query",
      *     type="integer",
-     *     description="People pagination"
+     *     description="User pagination"
      * )
      * @SWG\Tag(name="User")
      * @SecurityDoc(name="Bearer")
      */
     public function listOfuser(Request $request)
     {
+
         $user = $this->paging->getDatas($request->query->get('page'));
+        if ($user!= "ROLE_ADMIN") {
+            throw new ApiException('You are not admin,  access denied  🙅 ', 403);
+        }
 
         $userDTO = $this->userDTO->getUserDTO($user);
 
