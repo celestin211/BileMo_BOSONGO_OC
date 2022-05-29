@@ -1,4 +1,5 @@
 # BOSONGO PROJET 7 OPENCLASSROOMS
+https://celestinbosongo.com/doc
 
 Besoin client
 Le premier client a enfin signé un contrat de partenariat avec BileMo ! C’est le branle-bas de combat pour répondre aux besoins de ce premier client qui va permettre de mettre en place l’ensemble des API et de les éprouver tout de suite.
@@ -32,7 +33,7 @@ Création d'une API Rest pour BileMo, une entreprise de vente de téléphone fic
 ## Installation
 1. Clonez ou téléchargez le repository GitHub dans le dossier voulu :
 ```
-    git clone https://github.com/celestin211/BileMo_BOSONGO_OC.git
+    git clone https://github.com/celestin211/BileMo-Oc.git
 ```
 2. Configurez vos variables d'environnement tel que la connexion à la base de données dans le fichier `.env.local` qui devra être crée à la racine du projet en réalisant une copie du fichier `.env`.
 
@@ -56,4 +57,17 @@ $ openssl genrsa -out config/jwt/private.pem -aes256 4096
 $ openssl rsa -pubout -in config/jwt/private.pem -out config/jwt/public.pem
 ```
 
+
+## Utilisation
+*
+login méthode = {POST} 
+{
+  "email": "toto@yahoo.fr",
+  "username": "toto",
+  "password": "toto"
+}
+*
+
 7. Félicitations le projet est installé correctement, vous pouvez désormais commencer à l'utiliser à votre guise !
+
+                                                           https://celestinbosongo.com/doc
