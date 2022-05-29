@@ -31,7 +31,7 @@ class ListOfPeopleController
     }
 
     /**
-     * @Route("/people", methods={"GET"}, name="listOfPeople")
+     * @Route("/person", methods={"GET"}, name="listOfPeople")
      *
      * @SWG\Response(
      *     response=200,
@@ -46,9 +46,9 @@ class ListOfPeopleController
      *     name="page",
      *     in="query",
      *     type="integer",
-     *     description="People pagination"
+     *     description="Person pagination"
      * )
-     * @SWG\Tag(name="People")
+     * @SWG\Tag(name="Person")
      * @SecurityDoc(name="Bearer")
      */
     public function listOfpeople(Request $request)
@@ -62,4 +62,3 @@ class ListOfPeopleController
         return $this->responder->send($request, $peopleDTO);
     }
 }
-
