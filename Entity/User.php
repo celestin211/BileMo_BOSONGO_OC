@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Entity;
-
+use Swagger\Annotations as SWG;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,19 +14,29 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-    /**
+     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
 
-    /**
+    
+     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Le username est obligatoire !")
+     * @Assert\Length(min=2, max=255, minMessage="Le username doit avoir plus de 4 caractères !")
+     * @SWG\Property(type="string")
+     * @var string
      */
     private $username;
-    /**
+   
+      /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\NotBlank(message="Le email est obligatoire !")
+     * @Assert\Length(min=2, max=255, minMessage="Le email doit avoir plus de 5 caractères !")
+     * @SWG\Property(type="string")
+     * @var string
      */
     private $email;
 
@@ -34,9 +45,11 @@ class User implements UserInterface
      */
     private $roles = [];
 
-    /**
-     * @var string The hashed password
+     /**
      * @ORM\Column(type="string")
+     * @Assert\NotBlank(message="Le mot de passe est obligatoire !")
+     * @SWG\Property(type="string")
+     * @var string The hashed password
      */
     private $password;
 
