@@ -2,40 +2,40 @@
 
 namespace App\Controller;
 
-use App\DTO\ProductDTO;
-use App\Links\LinksProductDTOGenerator;
-use App\Paging\ProductsPaging;
+use App\DTO\PersonDTO;
+use App\Links\LinksPersonDTOGenerator;
+use App\Paging\PeoplePaging;
 use App\Responder\JsonResponder;
 use Nelmio\ApiDocBundle\Annotation\Security as SecurityDoc;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
-class ListOfProductsController
+class ListOfPeopleController
 {
     private $responder;
     private $paging;
-    private $productDTO;
+    private $personDTO;
     private $links;
 
     public function __construct(
         JsonResponder $responder,
-        ProductsPaging $paging,
-        ProductDTO $productDTO,
-        LinksProductDTOGenerator $links
+        PeoplePaging $paging,
+        PersonDTO $personDTO,
+        LinksPersonDTOGenerator $links
     ) {
         $this->responder = $responder;
         $this->paging = $paging;
-        $this->productDTO = $productDTO;
+        $this->personDTO = $personDTO;
         $this->links = $links;
     }
 
     /**
-     * @Route("/products", methods={"GET"}, name="listOfProducts")
+     * @Route("/persons", methods={"GET"}, name="listOfPeople")
      *
      * @SWG\Response(
      *     response=200,
-     *     description="Return list of product",
+     *     description="Return list of people",
      *
      * )
      * @SWG\Response(
@@ -46,19 +46,19 @@ class ListOfProductsController
      *     name="page",
      *     in="query",
      *     type="integer",
-     *     description="Product pagination"
+     *     description="Person pagination"
      * )
-     * @SWG\Tag(name="Product")
+     * @SWG\Tag(name="Person")
      * @SecurityDoc(name="Bearer")
      */
-    public function listOfproduct(Request $request)
+    public function listOfpeople(Request $request)
     {
-        $products = $this->paging->getDatas($request->query->get('page'));
+        $people = $this->paging->getDatas($request->query->get('page'));
 
-        $productsDTO = $this->productDTO->getProductDTO($products);
+        $peopleDTO = $this->personDTO->getPeopleDTO($people);
 
-        $this->links->addLinks($productsDTO);
+        $this->links->addLinks($peopleDTO);
 
-        return $this->responder->send($request, $productsDTO);
+        return $this->responder->send($request, $peopleDTO);
     }
 }
