@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\DTO\PersonDTO;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Entity\Person;
 use App\Links\LinksPersonDTOGenerator;
 use App\Responder\JsonResponder;
@@ -45,7 +46,7 @@ class AddPersonController
     }
 
     /**
-     * @Route("/person", methods={"POST"}, name="addPerson")
+     * @Route("/persons", methods={"POST"}, name="addPerson")
      * * @SWG\Response(
      *     response=201,
      *     description="Returns the created person",
