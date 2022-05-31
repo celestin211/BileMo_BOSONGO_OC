@@ -1,9 +1,9 @@
 <?php
 
 namespace App\Entity;
-
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
-
+use Swagger\Annotations as SWG;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PersonRepository")
  */
@@ -21,13 +21,19 @@ class Person
      */
     private $email;
 
-    /**
+     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="L'adresse email ne doit pas être vide !")
+     * @SWG\Property(type="string")
+     * @var string
      */
     private $firstname;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le firstname ne doit pas être vide !")
+     * @SWG\Property(type="string")
+     * @var string
      */
     private $lastname;
 
